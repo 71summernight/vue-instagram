@@ -4,20 +4,27 @@
       <li>Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li v-if="tabBtn==1" @click="tabBtn++">Next</li>
+      <li v-if="tabBtn==2"  @click="publish">발행</li>
+
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
+  <h4>안녕 {{$store.state.name}}</h4>
+  <p>{{$store.state.age}}</p>
+  <button @click="$store.commit('changeName')">이름버튼</button>
+    <button @click="$store.commit('changeAge',10)">나이버튼</button>
 
-  <Container :postdata="postdata" />
+  <Container :postdata="postdata" :tabBtn="tabBtn" :Image="Image"  @write="postContent=$event" :selectFilter="selectFilter" />
 <button @click="more">더보기</button>
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
+      <input @change="upload" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>
     </ul>
  </div>
-</template>
+
+</template>   
 
 <script>
 import Container from './components/Container'
@@ -30,6 +37,10 @@ export default {
     return{
       postdata:postdata,
       seemore:0,
+      tabBtn:0,
+      Image:"",
+      postContent:"",
+      selectFilter:""
     }
   },
   components: {
@@ -45,8 +56,37 @@ export default {
         this.postdata.push(result.data);
       this.seemore++;
       })    
-      }
-  }
+      },
+      upload(e){
+       let file= e.target.files
+       let url=URL.createObjectURL(file[0])
+       this.Image=url
+       this.tabBtn++;
+      },
+
+      publish(){
+        let myPost=  {
+          name: "Kim Hyun",
+          userImage: "https://placeimg.com/100/100/arch",
+          postImage: this.Image,
+          likes: 36,
+          date: "May 15",
+          liked: false,
+          content: this.postContent,
+          filter: this.selectFilter,
+        }
+        this.postdata.unshift(myPost);
+        this.tabBtn=0;
+      },
+      
+      mounted(){
+        this.emitter.on('filterMaker',(a)=>{
+          this.selectFilter=a
+        })
+    },
+
+  },
+  
 };
 </script>
 

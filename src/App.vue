@@ -10,13 +10,15 @@
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
-  <h4>안녕 {{$store.state.name}}</h4>
+  <h4>안녕 {{myName}}  {{age}}  {{likes}}</h4>
   <p>{{$store.state.age}}</p>
   <button @click="$store.commit('changeName')">이름버튼</button>
-    <button @click="$store.commit('changeAge',10)">나이버튼</button>
-
+    <button @click="changeAge(10)">나이버튼</button>
+    <p>{{now2}} {{counter}}</p>
+    <button @click="counter++">버튼</button>
   <Container :postdata="postdata" :tabBtn="tabBtn" :Image="Image"  @write="postContent=$event" :selectFilter="selectFilter" />
-<button @click="more">더보기</button>
+<button @click="$store.dispatch('getData')">더보기</button>
+<p>{{$store.state.seemore}}</p>
   <div class="footer">
     <ul class="footer-button-plus">
       <input @change="upload" type="file" id="file" class="inputfile" />
@@ -30,6 +32,7 @@
 import Container from './components/Container'
 import postdata from './assets/postdata'
 import axios from 'axios'
+import {mapState, mapMutations} from 'vuex'
 
 export default {
   name: "App",
@@ -40,13 +43,15 @@ export default {
       tabBtn:0,
       Image:"",
       postContent:"",
-      selectFilter:""
+      selectFilter:"",
+      counter:0,
     }
   },
   components: {
     Container
   },
   methods:{
+    ...mapMutations(['setMore','changeAge']),
     more(){
       axios.post("URL",{name:'kim'}).then().catch((err)=>{
         console.log(err)
@@ -84,8 +89,21 @@ export default {
           this.selectFilter=a
         })
     },
+    now(){
+      return new Date();
+    }
 
   },
+  computed:{
+    name(){
+      return this.$store.state.name
+    },
+    now2(){
+      return new Date()
+    },
+    ...mapState(['name','age','likes']),
+    ...mapState({myName:'name'})
+  }
   
 };
 </script>

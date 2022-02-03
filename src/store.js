@@ -1,34 +1,45 @@
-import {createStore} from 'vuex'
+import { createStore } from "vuex";
+import axios from "axios";
 
-const store=createStore({
-    state(data){
-        return{
-            name:'kim',
-            age:20,
-            liked:false,
-            likes:data
-        }
+const store = createStore({
+  state() {
+    return {
+      name: "kim",
+      age: 20,
+      liked: false,
+      likes: 30,
+      seemore: {},
+    };
+  },
+
+  mutations: {
+    setMore(state, data) {
+      state.seemore = data;
     },
+    changeName(state) {
+      state.name = "park";
+    },
+    changeAge(state, data) {
+      state.age = state.age + data;
+    },
+    changeLiked(state) {
+      state.liked = !state.liked;
+      if (state.liked === true) {
+        state.likes++;
+      } else {
+        state.likes--;
+      }
+    },
+  },
 
-    mutations:{
-        changeName(state){
-            state.name="park"
-        },
-        changeAge(state){
-            state.age++
-        },
-        changeLiked(state,data){
-            this.state.liked=(!this.state.liked)
-            console.log(this.state.liked)
-            if(state.liked===true){
-                
-                state.likes=data++;
-
-                }else{
-                state.likes=data--;
-            }
-          }
-    }
+  actions: {
+    getData(context) {
+      axios.get("https://codingapple1.github.io/vue/more0.json").then((a) => {
+        console.log(a.data);
+        context.commit("setMore", a.data);
+      });
+    },
+  },
 });
 
-export default store; 
+export default store;

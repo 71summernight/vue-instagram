@@ -1,6 +1,6 @@
 <template>
   <div v-if="tabBtn===0">
-  <Post  v-for="(a,i) in postdata" :key="i" :postdata="postdata[i]" />
+  <Post  v-for="(a,i) in postdata" :key="i" :postdata="postdata[i]"  />
   </div>
 
   <div  v-if="tabBtn===1">
@@ -35,7 +35,7 @@ export default {
 
     }
   },
-  
+
   mounted(){
         this.emitter.on('filterMaker',(a)=>{
           this.selectFilter=a

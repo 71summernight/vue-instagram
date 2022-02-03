@@ -1,11 +1,12 @@
 import {createStore} from 'vuex'
 
 const store=createStore({
-    state(){
+    state(data){
         return{
             name:'kim',
             age:20,
-            likes:0,
+            liked:false,
+            likes:data
         }
     },
 
@@ -16,10 +17,18 @@ const store=createStore({
         changeAge(state){
             state.age++
         },
-        likes(state){
-            state.likes++
-        }
+        changeLiked(state,data){
+            this.state.liked=(!this.state.liked)
+            console.log(this.state.liked)
+            if(state.liked===true){
+                
+                state.likes=data++;
+
+                }else{
+                state.likes=data--;
+            }
+          }
     }
-})
+});
 
 export default store; 

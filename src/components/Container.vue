@@ -18,12 +18,21 @@
     <textarea class="write-box" @input="$emit('write',$event.target.value)">write!</textarea>
   </div>
   </div>
+
+<div v-if="tabBtn===3">
+  <MyPage :one="1" />
+</div>
+
+
+
+
 </template>
 
 
 <script>
 import Post from './Post.vue'
 import FilterBox from './FilterBox.vue'
+import MyPage from './MyPage.vue'
 export default {
   data(){
     return{
@@ -44,7 +53,8 @@ export default {
 
   components:{
       Post,
-      FilterBox
+      FilterBox,
+      MyPage
   },
   props:{
       postdata:Array,

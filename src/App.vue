@@ -8,7 +8,7 @@
       <li v-if="tabBtn==2"  @click="publish">발행</li>
 
     </ul>
-    <img src="./assets/logo.png" class="logo" />
+    <img src="assets/logo.png" class="logo" />
   </div>
   <h4>안녕 {{myName}}  {{age}}  {{likes}}</h4>
   <p>{{$store.state.age}}</p>
@@ -40,7 +40,7 @@ export default {
     return{
       postdata:postdata,
       seemore:0,
-      tabBtn:0,
+      tabBtn:3,
       Image:"",
       postContent:"",
       selectFilter:"",
